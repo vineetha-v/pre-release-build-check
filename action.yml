@@ -1,0 +1,19 @@
+name: 'Pre-Release build check'
+description: 'Pre-Release build check'
+inputs:
+  apkPath:
+    description: 'apk path'
+    required: true
+    default: 'app/build/outputs/apk/release/app-release.apk'
+outputs:
+  versionCode:
+    description: 'apk versionCode'
+  versionNum:
+    description: 'apk versionNum'
+  applicationId:
+    description: 'apk applicationId'
+  name:
+    description: 'apk name'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
