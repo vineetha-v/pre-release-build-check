@@ -9888,6 +9888,8 @@ exports.addPath = addPath;
  * @returns   string
  */
 function getInput(name, options) {
+    console.log('start', 'getinput');
+    console.log('name', name);
     const val = process.env[`INPUT_${name.replace(/ /g, '_').toUpperCase()}`] || '';
     if (options && options.required && !val) {
         throw new Error(`Input required and not supplied: ${name}`);
@@ -10286,10 +10288,11 @@ const AppInfoParser = __webpack_require__(217);
 
 async function main() {
     try {
+      
         // inputs from action
-        //const apkPath = core.getInput('apkPath');
+        const apkPath = core.getInput('apkPath');
 
-        const apkPath = "/Users/newpage/Downloads/Pug/PugApplication/script/CHECK/app-debug.apk";
+        //const apkPath = "/Users/newpage/Downloads/Pug/PugApplication/script/CHECK/app-debug.apk";
         console.log(apkPath);
 
         const parser = new AppInfoParser(apkPath);// or xxx.ipa
