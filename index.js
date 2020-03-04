@@ -3,6 +3,8 @@ const AppInfoParser = require('app-info-parser');
 
 async function main() {
     try {
+        console.log('start', 'started job');
+
         // inputs from action
         const apkPath = core.getInput('apkPath');
 

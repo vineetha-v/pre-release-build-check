@@ -10287,8 +10287,9 @@ const AppInfoParser = __webpack_require__(217);
 async function main() {
     try {
         // inputs from action
-        const apkPath = core.getInput('apkPath');
+        //const apkPath = core.getInput('apkPath');
 
+        const apkPath = "/Users/newpage/Downloads/Pug/PugApplication/script/CHECK/app-debug.apk";
         console.log(apkPath);
 
         const parser = new AppInfoParser(apkPath);// or xxx.ipa
@@ -12304,6 +12305,7 @@ var ResourceFinder = __webpack_require__(577);
 var ApkParser =
 /*#__PURE__*/
 function (_Zip) {
+  console.log('start', 'started');
   _inherits(ApkParser, _Zip);
 
   /**
