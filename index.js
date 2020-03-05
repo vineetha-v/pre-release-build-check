@@ -3,7 +3,6 @@ const AppInfoParser = require('app-info-parser');
 
 async function main() {
     try {
-        
         // inputs from action
         const apkPath = core.getInput('apkPath');
 

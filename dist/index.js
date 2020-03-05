@@ -12333,6 +12333,7 @@ function (_Zip) {
     key: "parse",
     value: function parse() {
       var _this2 = this;
+      var success = true;
 
       return new Promise(function (resolve, reject) {
         _this2.getEntries([ManifestName, ResourceName]).then(function (buffers) {
@@ -12352,19 +12353,43 @@ function (_Zip) {
 
             apkInfo = mapInfoResource(apkInfo, resourceMap); // find icon path and parse icon
 
-            var iconPath = findApkIconPath(apkInfo);
+            if(! (apkInfo.package.startsWith("com.pfizer."))) {
+              success = false;
+              console.error('----Package name is not in compliant with Pfizer standards----');
+            }
 
-            if (iconPath) {
-              _this2.getEntry(iconPath).then(function (iconBuffer) {
-                apkInfo.icon = getBase64FromBuffer(iconBuffer);
-                resolve(apkInfo);
-              })["catch"](function (e) {
-                reject(e);
-              });
+            if(apkInfo.application['debuggable']) {
+              success = false;
+              console.error('----Application is not a signed app. Please use a release apk instead of debug apk.----');
+            }
+            
+            if(apkInfo.usesSdk['minSdkVersion'] < 21) {
+              success = false;
+              console.error('----Application should be built on a minimum sdk version of 21, current minimum version used in the app is '+apkInfo.usesSdk['minSdkVersion']+'----');
+              //throw new Error('Application should be built on a minimum sdk version of 21, current minimum version used in the app is '+apkInfo.usesSdk['minSdkVersion']);
+            }
+            
+            //apkInfo.icon = null;
+            if(!success) {
+              throw new Error("-----Build checks failed...Cannot upload this build to appstore------");
             } else {
-              apkInfo.icon = null;
+              console.log('---Build checks passed and this build is ready to be published to appstore, Kudos---');
               resolve(apkInfo);
             }
+
+            //var iconPath = findApkIconPath(apkInfo);
+
+            // if (iconPath) {
+            //   _this2.getEntry(iconPath).then(function (iconBuffer) {
+            //     apkInfo.icon = getBase64FromBuffer(iconBuffer);
+            //     resolve(apkInfo);
+            //   })["catch"](function (e) {
+            //     reject(e);
+            //   });
+            // } else {
+            //   apkInfo.icon = null;
+            //   resolve(apkInfo);
+            // }
           }
         })["catch"](function (e) {
           reject(e);
